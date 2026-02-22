@@ -44,7 +44,7 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public UserEntity getUserById(@PathVariable Long id) {
-		return userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not founf with this id:"+id));
+		return userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found with this id:"+id));
 	}
 	
 	@PostMapping
