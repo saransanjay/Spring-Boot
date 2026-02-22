@@ -1,6 +1,8 @@
 package com.practice.springbootdemo.secuirty;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,6 +12,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.springbootdemo.services.CustomUserDetailsService;
 
 import jakarta.servlet.FilterChain;
@@ -59,6 +62,13 @@ public class JwtFilter extends OncePerRequestFilter {
 			
 		} catch (Exception e) {
 			// TODO: handle exception
+			Map<String, String> responseMap = new HashMap<>();
+			responseMap.put("error", "Invalid Token");
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonString = objectMapper.writeValueAsString(responseMap);	
+			
+			response.getWriter().write(jsonString);
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
